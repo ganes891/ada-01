@@ -22,8 +22,10 @@ pipeline {
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
-        IMAGE_REPO_NAME= 'dev-project/app01'
+        IMAGE_REPO_NAME= 'dev-project'
         CLUSTER_NAME = 'xyz'
+        PYTHON_BE_01 = 'python-app-be-01'
+        JAVA_BE_01 = 'java-app-be-01'
         EKS_TF_DIR = 'infra/eks-admin-tf/01-ekscluster-terraform-manifests'
         GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'
         //APP_REPO = 'ganes891/jenklib.git'
@@ -97,27 +99,17 @@ pipeline {
         }
         
          
-        stage('Docker Image Build'){
+        stage('Java BE docker build'){
               when{expression{params.action == "create"}}       
             steps{
                script{
                    
                     //dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    //dockerBuild(PROJECT)
-                    sh 'pwd'
+                    dockerBuild(PROJECT)
+                  
                }
             }
         }
-        
-        /*stage('Docker Image scan'){
-              when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   
-                    dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-               }
-            }
-        }*/
         stage('Docker Image Push'){
               when{expression{params.action == "create"}}       
             steps{
@@ -128,15 +120,28 @@ pipeline {
                }
             }
         }
-        /*stage('Docker Image clean'){
+        stage('Python BE docker build'){
               when{expression{params.action == "create"}}       
             steps{
                script{
+                   //dir("${PYTHON_BE_01}")
+                  def imageName = params.PYTHON_BE_01
+                  def buildContext = "./${params.PYTHON_BE_01}"
+                  def dockerBuild(imageName, buildContext)
+            }
+        }
+      }
+       stage('Python BE docker Push'){
+          when{expression{params.action == "create"}}       
+            steps{
+               script{
                    
-                    dockerImageClean("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                  //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                  dockerImagePushEcr(PROJECT)
                }
             }
-        } */
+        }
+
          stage('Connect to EKS cluster: Terraform'){
               when{expression{params.action == "create"}}       
             steps{
@@ -160,11 +165,7 @@ pipeline {
             }
         }
       }
-      stage('cleanup workspace'){
-        steps{
-        cleanWs()
-        }
-      }
+    
        /* stage('Connect to EKS cluster: Terraform'){
               when{expression{params.action == "create"}}       
             steps{
@@ -204,6 +205,11 @@ pipeline {
                }   
             }
         }
+      stage('cleanup workspace'){
+        steps{
+        cleanWs()
+        }
+      }
     }
 }
 
