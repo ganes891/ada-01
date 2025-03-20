@@ -127,7 +127,7 @@ pipeline {
                    //dir("${PYTHON_BE_01}")
                   def imageName = params.PYTHON_BE_01
                   def dockerfileDir = "./${params.PYTHON_BE_01}"
-                  def dockerBuild(imageName, dockerfileDir)
+                  dockerBuild(imageName, dockerfileDir)
             }
         }
       }
