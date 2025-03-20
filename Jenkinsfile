@@ -126,10 +126,11 @@ pipeline {
          when{expression{params.action == "create"}}       
             steps{
                script{
-                   //dir("${PYTHON_BE_01}")
+                   dir("${PYTHON_BE_01}"){
                   def imageName = params.PYTHON_BE_01
                   def dockerfileDir = "./${params.PYTHON_BE_01}"
                   dockerBuild(imageName, dockerfileDir)
+                   }
             }
         }
       }
