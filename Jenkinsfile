@@ -104,7 +104,7 @@ pipeline {
                    
                    // dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                     def imageName = params.JAVA_BE_01
-                    def dockerfileDir = "./${params.JAVA_BE_01}"
+                    def dockerfileDir = "."
                     dockerBuild(imageName, dockerfileDir)     
                }
             }
