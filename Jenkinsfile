@@ -36,8 +36,9 @@ pipeline {
          when{expression{params.action == "create"}}    
             steps{
               script{
-                git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: "${GIT_URL}"
+               // git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: "${GIT_URL}"
                 //gitCheckout(PROJECT)
+                sh "pwd"
                 
               }
             }
