@@ -3,7 +3,6 @@
 pipeline {
 
     agent any
-
     parameters
     {   
         choice(name: 'CloudName', choices: 'AWS\nAZURE', description: 'choose the cloud platform')
@@ -33,10 +32,8 @@ pipeline {
     }
    
     stages{
-      
-      
-        stage('Git Checkout'){
-                when{expression{params.action == "create"}}    
+      stage('Git Checkout'){
+         when{expression{params.action == "create"}}    
             steps{
               script{
                 //git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/ganes891/jenklib.git'
@@ -44,7 +41,7 @@ pipeline {
                 
               }
             }
-        }
+       }
          /* 
        stage('Unit Test maven'){
                when{expression{params.action == "create"}}      
@@ -67,7 +64,7 @@ pipeline {
         }*/
         
         
-        /* stage('Static Code Analysis: Sonarqube'){
+    /*stage('Static Code Analysis: Sonarqube'){
                when{expression{params.action == "create"}}      
             steps{
                script{
@@ -77,7 +74,7 @@ pipeline {
             }
         }
        
-       stage('Quality Gate status check: Sonarqube'){
+      stage('Quality Gate status check: Sonarqube'){
                when{expression{params.action == "create"}}      
             steps{
                script{
@@ -87,31 +84,36 @@ pipeline {
             }
         }*/
         
-        stage('Maven build: maven'){
-              when{expression{params.action == "create"}}       
+      stage('Maven build: maven'){
+         when{expression{params.action == "create"}}       
             steps{
                script{
                    
-                    //mvnBuild()
-                    sh "pwd"
+                    mvnBuild()
+                    //sh "pwd"
                }
             }
         }
         
          
-        stage('Java BE docker build'){
-              when{expression{params.action == "create"}}       
+      stage('Java BE docker build'){
+         when{expression{params.action == "create"}}       
             steps{
                script{
                    
                     //dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    dockerBuild(PROJECT)
+                    def imageName = params.PYTHON_BE_01
+                    def buildContext = "./${params.PYTHON_BE_01}"
+                    def dockerBuild(imageName)
+                    
+                    
                   
                }
             }
-        }
-        stage('Docker Image Push'){
-              when{expression{params.action == "create"}}       
+      }
+    
+      stage('Docker Image Push'){
+          when{expression{params.action == "create"}}       
             steps{
                script{
                    
@@ -119,9 +121,10 @@ pipeline {
                     dockerImagePushEcr(PROJECT)
                }
             }
-        }
-        stage('Python BE docker build'){
-              when{expression{params.action == "create"}}       
+      }
+    
+      stage('Python BE docker build'){
+         when{expression{params.action == "create"}}       
             steps{
                script{
                    //dir("${PYTHON_BE_01}")
@@ -131,8 +134,9 @@ pipeline {
             }
         }
       }
-       stage('Python BE docker Push'){
-          when{expression{params.action == "create"}}       
+
+      stage('Python BE docker Push'){
+         when{expression{params.action == "create"}}       
             steps{
                script{
                    
@@ -140,10 +144,10 @@ pipeline {
                   dockerImagePushEcr(PROJECT)
                }
             }
-        }
+      }
 
-         stage('Connect to EKS cluster: Terraform'){
-              when{expression{params.action == "create"}}       
+      stage('Connect to EKS cluster: Terraform'){
+         when{expression{params.action == "create"}}       
             steps{
                script{
                    
@@ -151,11 +155,10 @@ pipeline {
                     connectAws(PROJECT)
                }
             }
-        }
+      }
 
-
-        stage('Create EKS cluster using IAAC: Terraform'){
-              when{expression{params.action == "create"}}       
+      stage('Create EKS cluster using IAAC: Terraform'){
+         when{expression{params.action == "create"}}       
             steps{
                script{
                    dir("${EKS_TF_DIR}")
@@ -180,11 +183,9 @@ pipeline {
             }
         }*/
 
-
-        
-        stage('Deployment of EKS cluster: Terraform'){
-              when{expression{params.action == "delete"}}       
-            steps{
+      stage('Deployment of EKS cluster: Terraform'){
+         when{expression{params.action == "delete"}}       
+         steps{
                script{
                     
                   def apply = false
@@ -204,13 +205,11 @@ pipeline {
                   }
                }   
             }
-        }
+      }
       stage('cleanup workspace'){
         steps{
-        cleanWs()
+          cleanWs()
         }
       }
-    }
+   }
 }
-
-
