@@ -37,7 +37,7 @@ pipeline {
             steps{
               script{
                 //git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/ganes891/jenklib.git'
-                gitCheckout(project)
+                gitCheckout(PROJECT)
                 
               }
             }
