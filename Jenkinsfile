@@ -102,8 +102,8 @@ pipeline {
                script{
                    
                    // dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    def imageName = params.PYTHON_BE_01
-                    def dockerfileDir = "./${params.PYTHON_BE_01}"
+                    def imageName = params.JAVA_BE_01
+                    def dockerfileDir = "./${params.JAVA_BE_01}"
                     dockerBuild(imageName, dockerfileDir)     
                }
             }
@@ -126,8 +126,8 @@ pipeline {
                script{
                    //dir("${PYTHON_BE_01}")
                   def imageName = params.PYTHON_BE_01
-                  def buildContext = "./${params.PYTHON_BE_01}"
-                  def dockerBuild(imageName, buildContext)
+                  def dockerfileDir = "./${params.PYTHON_BE_01}"
+                  def dockerBuild(imageName, dockerfileDir)
             }
         }
       }
