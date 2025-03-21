@@ -148,6 +148,7 @@ pipeline {
       }*/
 
       stage('Build and Push each Microservices') {
+         when{expression{params.action == "create"}} 
             steps {
                 script {
                     // List of microservices with their corresponding directories
