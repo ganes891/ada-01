@@ -170,7 +170,7 @@ pipeline {
                         // Using `dir()` to switch to the respective directory
                         dir(serviceDir) {
                             // Call the dockerBuild function
-                            dockerBuild(imageName, '.', env.IMAGE_TAG, true)
+                            dockerBuild(imageName)
                         }
                     }
                 }
