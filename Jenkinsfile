@@ -117,7 +117,8 @@ pipeline {
                    
                     //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                     def imageName = params.JAVA_BE_01
-                    dockerImagePushEcr(imageName)
+                    //dockerImagePushEcr(imageName)
+                    sh "pwd"
                }
             }
       }
