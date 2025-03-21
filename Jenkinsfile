@@ -180,7 +180,7 @@ pipeline {
       }
 
       stage('Create EKS cluster using IAAC: Terraform'){
-         when{expression{params.action == "create"}}       
+         when{expression{params.action == "iaccreate"}}       
             steps{
                script{
                    dir("${EKS_TF_DIR}")
@@ -192,7 +192,7 @@ pipeline {
       }
 
       stage('Connect to EKS cluster: Terraform'){
-         when{expression{params.action == "create"}}       
+         when{expression{params.action == "iaccreate"}}       
             steps{
                script{
                    
