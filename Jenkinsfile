@@ -179,17 +179,6 @@ pipeline {
 
       }
 
-      stage('Connect to EKS cluster: Terraform'){
-         when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   
-                    //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    connectAws(PROJECT)
-               }
-            }
-      }
-
       stage('Create EKS cluster using IAAC: Terraform'){
          when{expression{params.action == "create"}}       
             steps{
@@ -200,6 +189,17 @@ pipeline {
                }   
             }
         }
+      }
+
+      stage('Connect to EKS cluster: Terraform'){
+         when{expression{params.action == "create"}}       
+            steps{
+               script{
+                   
+                    //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                    connectAws(PROJECT)
+               }
+            }
       }
     
        /* stage('Connect to EKS cluster: Terraform'){
