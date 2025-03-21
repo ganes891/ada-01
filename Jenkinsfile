@@ -10,7 +10,7 @@ pipeline {
         string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '599646583608')
         string(name: 'Region', description: "Region of ECR", defaultValue: 'ap-southeast-1')
         string(name: 'ImageName', description: "name of the docker build", defaultValue: 'myapp02')
-        string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v2.2')
+        string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v2.3')
         string(name: 'cluster', description: "name of the EKS Cluster", defaultValue: 'SAP-dev-eksdemo')
     }
  
