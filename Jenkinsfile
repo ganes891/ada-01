@@ -122,7 +122,7 @@ pipeline {
             }
       }
     
-      stage('Python BE docker build'){
+      /*stage('Python BE docker build'){
          when{expression{params.action == "create"}}       
             steps{
                script{
@@ -144,6 +144,37 @@ pipeline {
                   dockerImagePushEcr(PROJECT)
                }
             }
+      }*/
+
+      stage('Build and Push each Microservices') {
+            steps {
+                script {
+                    // List of microservices with their corresponding directories
+                    def microservices = [
+                        'service-a': './python-app-be-01',  // Key: image name, Value: directory path
+                        'service-b': './python-app-be-02'   // Example microservices
+                    ]
+
+                    // Docker login (only needed if you're pushing to a registry)
+                    //sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS $REGISTRY'
+
+                    // Loop through each microservice
+                    microservices.each { serviceName, serviceDir ->
+                        // Construct the image name based on the registry and service name
+                        def imageName = "${serviceName}"
+
+                        // Switch to the directory of each microservice and build the Docker image
+                        echo "🚀 Building and pushing image for ${serviceName} from directory ${serviceDir}"
+
+                        // Using `dir()` to switch to the respective directory
+                        dir(serviceDir) {
+                            // Call the dockerBuild function
+                            dockerBuild(imageName, '.', env.IMAGE_TAG, true)
+                        }
+                    }
+                }
+            }
+
       }
 
       stage('Connect to EKS cluster: Terraform'){
