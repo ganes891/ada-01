@@ -87,69 +87,36 @@ pipeline {
             }
         }*/
         
-      stage('Maven build: maven'){
-         when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   
-                    mvnBuild()
-                    //sh "pwd"
-               }
+      stage('Java - Build and Push Microservices') {
+         when{expression{params.action == "create"}} 
+            steps {
+                script {
+                    // List of microservices with their corresponding directories
+                    def microservices = [
+                        'service-c': './java-app-be-01',  // Key: image name, Value: directory path
+                        //'service-b': './python-app-be-02'   // Example microservices
+                    ]
+                        microservices.each { serviceName, serviceDir ->
+                        def imageName = "${serviceName}"
+
+                        // Switch to the directory of each microservice and build the Docker image
+                        echo "🚀 Building and pushing image for ${serviceName} from directory ${serviceDir}"
+
+                        // Using `dir()` to switch to the respective directory
+                        dir(serviceDir) {
+                            // Call the dockerBuild function
+
+                            def dockerfileDir = "."
+                            mvnBuild()
+                            dockerBuild(imageName, dockerfileDir)
+                        }
+                    }
+                }
             }
-        }
-        
-         
-      stage('Java BE docker build'){
-         when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   
-                   // dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    def imageName = params.JAVA_BE_01
-                    def dockerfileDir = "."
-                    dockerBuild(imageName, dockerfileDir)     
-               }
-            }
-      }
-    
-      stage('Docker Image Push'){
-          when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   
-                    //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    def imageName = params.JAVA_BE_01
-                    //dockerImagePushEcr(imageName)
-                    sh "pwd"
-               }
-            }
-      }
-    
-      /*stage('Python BE docker build'){
-         when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   dir("${PYTHON_BE_01}"){
-                  def imageName = params.PYTHON_BE_01
-                  def dockerfileDir = "./${params.PYTHON_BE_01}"
-                  dockerBuild(imageName, dockerfileDir)
-                   }
-            }
-        }
+
       }
 
-      stage('Python BE docker Push'){
-         when{expression{params.action == "create"}}       
-            steps{
-               script{
-                   
-                  //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                  dockerImagePushEcr(PROJECT)
-               }
-            }
-      }*/
-
-      stage('Build and Push each Microservices') {
+      stage('Python - Build and Push Microservices') {
          when{expression{params.action == "create"}} 
             steps {
                 script {

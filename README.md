@@ -84,3 +84,55 @@ https://chatgpt.com/c/7c8ee984-cc03-4de1-9fa3-33c193572d2c
 -var 'access_key=$USER' -var 'secret_key=$PASS' -var 'region=${AWS_DEFAULT_REGION}' 
                    #terraform apply -var 'access_key=$USER' -var 'secret_key=$PASS' -var 'region=${AWS_DEFAULT_REGION}' --auto-approve
                    
+
+
+
+      stage('Java BE docker build'){
+         when{expression{params.action == "create"}}       
+            steps{
+               script{
+                   
+                   // dockerBuild("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                    def imageName = params.JAVA_BE_01
+                    def dockerfileDir = "."
+                    dockerBuild(imageName, dockerfileDir)     
+               }
+            }
+      }
+    
+      stage('Docker Image Push'){
+          when{expression{params.action == "create"}}       
+            steps{
+               script{
+                   
+                    //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                    def imageName = params.JAVA_BE_01
+                    //dockerImagePushEcr(imageName)
+                    sh "pwd"
+               }
+            }
+      }
+    
+      /*stage('Python BE docker build'){
+         when{expression{params.action == "create"}}       
+            steps{
+               script{
+                   dir("${PYTHON_BE_01}"){
+                  def imageName = params.PYTHON_BE_01
+                  def dockerfileDir = "./${params.PYTHON_BE_01}"
+                  dockerBuild(imageName, dockerfileDir)
+                   }
+            }
+        }
+      }
+
+      stage('Python BE docker Push'){
+         when{expression{params.action == "create"}}       
+            steps{
+               script{
+                   
+                  //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                  dockerImagePushEcr(PROJECT)
+               }
+            }
+      }*/
