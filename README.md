@@ -136,3 +136,25 @@ https://chatgpt.com/c/7c8ee984-cc03-4de1-9fa3-33c193572d2c
                }
             }
       }*/
+
+
+
+  /*stage('Static Code Analysis: Sonarqube'){
+               when{expression{params.action == "create"}}      
+            steps{
+               script{
+                   def SonarQubecredentialsId = 'SonarQubeapi'
+                   staticCodeAnalysis(SonarQubecredentialsId)
+               }
+            }
+        }
+       
+      stage('Quality Gate status check: Sonarqube'){
+               when{expression{params.action == "create"}}      
+            steps{
+               script{
+                   def SonarQubecredentialsId = 'SonarQubeapi'
+                   staticCodeAnalysis(SonarQubecredentialsId)
+               }
+            }
+        }*/

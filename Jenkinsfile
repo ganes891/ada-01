@@ -42,28 +42,7 @@ pipeline {
                 
               }
             }
-       }
-               
-    /*stage('Static Code Analysis: Sonarqube'){
-               when{expression{params.action == "create"}}      
-            steps{
-               script{
-                   def SonarQubecredentialsId = 'SonarQubeapi'
-                   staticCodeAnalysis(SonarQubecredentialsId)
-               }
-            }
-        }
-       
-      stage('Quality Gate status check: Sonarqube'){
-               when{expression{params.action == "create"}}      
-            steps{
-               script{
-                   def SonarQubecredentialsId = 'SonarQubeapi'
-                   staticCodeAnalysis(SonarQubecredentialsId)
-               }
-            }
-        }*/
-        
+       }      
       stage('Java - Build and Push Microservices') {
          when{expression{params.action == "create"}} 
             steps {
