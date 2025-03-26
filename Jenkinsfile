@@ -22,6 +22,7 @@ pipeline {
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
         IMAGE_REPO_NAME= 'dev-project'
+        IMAGE_NAMESPACE='ada01'
         CLUSTER_NAME = 'xyz'
         PYTHON_BE_01 = 'python-app-be-01'
         JAVA_BE_01 = 'java-app-be-01'
@@ -109,11 +110,12 @@ pipeline {
                             def dockerfileDir = "."
                             mvnBuild()
                             dockerBuild(imageName, dockerfileDir)
+                            dockerImagePushEcr(imageName)
+
                         }
                     }
                 }
             }
-
       }
 
       stage('Python - Build and Push Microservices') {
@@ -142,13 +144,12 @@ pipeline {
                             // Call the dockerBuild function
                             def dockerfileDir = "."
                             dockerBuild(imageName, dockerfileDir)
+                            dockerImagePushEcr(imageName)
                         }
                     }
                 }
             }
-
       }
-
       stage('Create EKS cluster using IAAC: Terraform'){
          when{expression{params.action == "iaccreate"}}       
             steps{
@@ -164,28 +165,13 @@ pipeline {
       stage('Connect to EKS cluster: Terraform'){
          when{expression{params.action == "iaccreate"}}       
             steps{
-               script{
-                   
+               script{  
                     //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                     connectAws(PROJECT)
                }
             }
       }
     
-       /* stage('Connect to EKS cluster: Terraform'){
-              when{expression{params.action == "create"}}       
-            steps{
-               script{
-                  sh """
-                  aws configure set aws_access_key_id "$ACCESS_KEY"
-                  aws configure set aws_secret_access_key "$SECRET_KEY"
-                  aws configure set region "${params.Region}"
-                  aws eks --region ${params.Region} update-kubeconfig --name ${params.cluster}
-                  """
-               }   
-            }
-        }*/
-
       stage('Deployment of EKS cluster: Terraform'){
          when{expression{params.action == "delete"}}       
          steps{
@@ -208,7 +194,6 @@ pipeline {
                   }
                }   
             }
-      }
-
+       }
    }
 }
