@@ -66,7 +66,7 @@ pipeline {
                             mvnBuild()
                             dockerBuild(imageName, dockerfileDir)
                             dockerImagePushEcr(imageName)
-                            dockerImagePush(imageName)
+                            //dockerImagePush(imageName)
                             dockerImageClean(imageName)
 
                         }
@@ -102,7 +102,7 @@ pipeline {
                             def dockerfileDir = "."
                             dockerBuild(imageName, dockerfileDir)
                             dockerImagePushEcr(imageName)
-                            dockerImagePush(imageName)
+                            //dockerImagePush(imageName)
                             dockerImageClean(imageName)
                         }
                     }
