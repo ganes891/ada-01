@@ -16,7 +16,7 @@ pipeline {
     environment{
         DOCKER_IMAGE = 'myapp01'
        //PROJECT = '${ImageName}'
-        IMAGE_TAG = 'v2.2'
+        IMAGE_TAG = 'v2.3'
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
