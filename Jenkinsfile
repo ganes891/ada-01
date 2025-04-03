@@ -136,7 +136,7 @@ pipeline {
          when{expression{params.action == "deploy-k8s"}}       
          steps{
                script{
-                dir("${EKS_APP_MANIFEST_DIR}")
+                dir("${EKS_APP_MANIFEST_DIR}") {
                     
                   def apply = false
 
@@ -150,9 +150,11 @@ pipeline {
                   if(apply){
 
                     sh """
+                      aws eks update-kubeconfig --region ap-southeast-1 --name SAP-dev-eksdemo
                       kubectl apply -f .
                     """
                   }
+                }
                }   
             }
        }
