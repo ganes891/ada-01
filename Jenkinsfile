@@ -9,7 +9,6 @@ pipeline {
         choice(name: 'action', choices: 'create\ndeploy-k8s\niaccreate', description: 'choose create/Destroy')
         string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '599646583608')
         string(name: 'Region', description: "Region of ECR", defaultValue: 'ap-southeast-1')
-        //string(name: 'ImageName', description: "name of the docker build", defaultValue: 'myapp02')
         string(name: 'cluster', description: "name of the EKS Cluster", defaultValue: 'SAP-dev-eksdemo')
     }
  
@@ -158,5 +157,11 @@ pipeline {
                }   
             }
        }
+     stage('cleanup workspace'){
+        steps{
+        cleanWs()
+        }
+      }
+      
    }
 }
