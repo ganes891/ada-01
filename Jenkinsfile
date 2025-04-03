@@ -157,11 +157,11 @@ pipeline {
                }   
             }
        }
-     stage('cleanup workspace'){
-        steps{
-        cleanWs()
-        }
-      }
+    // stage('cleanup workspace'){
+      //  steps{
+        //cleanWs()
+        //}
+     // }
 
    }
 }
