@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: ada01
+        app: ada02
     spec:
       containers:
       - name: ada-b
