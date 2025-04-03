@@ -6,7 +6,7 @@ pipeline {
     parameters
     {   
         choice(name: 'CloudName', choices: 'AWS\nAZURE\nOnPrem', description: 'choose the cloud platform')
-        choice(name: 'action', choices: 'create\ndelete\niaccreate', description: 'choose create/Destroy')
+        choice(name: 'action', choices: 'create\ndeploy-k8s\niaccreate', description: 'choose create/Destroy')
         string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '599646583608')
         string(name: 'Region', description: "Region of ECR", defaultValue: 'ap-southeast-1')
         //string(name: 'ImageName', description: "name of the docker build", defaultValue: 'myapp02')
@@ -15,7 +15,7 @@ pipeline {
  
     environment{
         DOCKER_IMAGE = 'myapp01'
-       // PROJECT = '${ImageName}'
+       //PROJECT = '${ImageName}'
         IMAGE_TAG = 'v2.2'
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
@@ -25,6 +25,7 @@ pipeline {
         PYTHON_BE_01 = 'python-app-be-01'
         JAVA_BE_01 = 'java-app-be-01'
         EKS_TF_DIR = 'infra/eks-admin-tf/01-ekscluster-terraform-manifests'
+        EKS_APP_MANIFEST_DIR = 'application/manifests'
         GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
@@ -132,9 +133,10 @@ pipeline {
       }
     
       stage('Deployment of EKS cluster: Terraform'){
-         when{expression{params.action == "delete"}}       
+         when{expression{params.action == "deploy-k8s"}}       
          steps{
                script{
+                dir("${EKS_APP_MANIFEST_DIR}")
                     
                   def apply = false
 

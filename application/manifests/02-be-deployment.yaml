@@ -3,17 +3,17 @@ kind: Deployment
 metadata:
   name: ada01-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: ada01
+      app: ada02
   template:
     metadata:
       labels:
         app: ada01
     spec:
       containers:
-      - name: ada01
-        image: 599646583608.dkr.ecr.ap-southeast-1.amazonaws.com/dev-project/app01:v2.1
+      - name: ada-b
+        image: 599646583608.dkr.ecr.ap-southeast-1.amazonaws.com/ada01/service-b:v2.2
         ports:
-        - containerPort: 8080
+        - containerPort: 5000

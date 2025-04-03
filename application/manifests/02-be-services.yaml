@@ -4,7 +4,7 @@ metadata:
   name: ada01-service
 spec:
   selector:
-    app: ada01
+    app: ada02
   ports:
   - name: http
     port: 80
