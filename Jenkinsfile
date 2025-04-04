@@ -15,7 +15,7 @@ pipeline {
     environment{
         DOCKER_IMAGE = 'myapp01'
        //PROJECT = '${ImageName}'
-        IMAGE_TAG = 'v2.4'
+        IMAGE_TAG = 'v2.3'
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
@@ -65,7 +65,7 @@ pipeline {
                             def dockerfileDir = "."
                             mvnBuild()
                             dockerBuild(imageName, dockerfileDir)
-                            //dockerImagePushEcr(imageName)
+                            dockerImagePushEcr(imageName)
                             //dockerImagePush(imageName)
                             dockerImageClean(imageName)
 
