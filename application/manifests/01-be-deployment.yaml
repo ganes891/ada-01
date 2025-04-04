@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: ada-a
-        image: 599646583608.dkr.ecr.ap-southeast-1.amazonaws.com/ada01/service-a:v2.3
+        image: 599646583608.dkr.ecr.ap-southeast-1.amazonaws.com/ada01/service-a:v2.4
         ports:
         - containerPort: 5000
