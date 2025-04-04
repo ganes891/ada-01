@@ -5,7 +5,7 @@ pipeline {
     agent any
     parameters
     {   
-        choice(name: 'CloudName', choices: 'AWS\nAZURE\nOnPrem', description: 'choose the cloud platform')
+        choice(name: 'environment', choices: 'AWS\nAZURE\nOnPrem', description: 'choose the cloud platform')
         choice(name: 'action', choices: 'create\ndeploy-k8s\niaccreate', description: 'choose create/Destroy')
         string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '599646583608')
         string(name: 'Region', description: "Region of ECR", defaultValue: 'ap-southeast-1')
@@ -20,7 +20,7 @@ pipeline {
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
         IMAGE_NAMESPACE='ada01'
-        CLUSTER_NAME = 'xyz'
+        EKS_CLUSTER_NAME = 'SAP-dev-eksdemo'
         PYTHON_BE_01 = 'python-app-be-01'
         JAVA_BE_01 = 'java-app-be-01'
         EKS_TF_DIR = 'infra/eks-admin-tf/01-ekscluster-terraform-manifests'
@@ -149,7 +149,7 @@ pipeline {
                   if(apply){
 
                     sh """
-                      aws eks update-kubeconfig --region ap-southeast-1 --name SAP-dev-eksdemo
+                      aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${EKS_CLUSTER_NAME}
                       kubectl apply -f .
                     """
                   }
@@ -157,6 +157,21 @@ pipeline {
                }   
             }
        }
+      stage('Deployment of EKS cluster: Terraform'){
+         when{expression{params.action == "deploy-k8s" && params.environment == "OnPrem"}}       
+         steps{
+               script{
+               sh "sudo podman rm -f service-a"
+               sh "sudo podman rm -f service-b"
+               sh "sudo podman run -dit -p 5001:5000 --name  service-a quay.io/ganesan_kandasamy/ada01/service-a:${IMAGE_TAG}"
+               sh "sudo podman run -dit -p 5002:5000 --name  service-b quay.io/ganesan_kandasamy/ada01/service-a:${IMAGE_TAG}"
+
+               }
+         }
+      }
+        
+
+
     // stage('cleanup workspace'){
       //  steps{
         //cleanWs()
