@@ -132,7 +132,7 @@ pipeline {
       }
     
       stage('Deployment on EKS cluster - pods'){
-         when{expression{params.action == "deploy-k8s"}}       
+         when{expression{params.action == "deploy-k8s" && params.environment == "AWS"}}       
          steps{
                script{
                 dir("${EKS_APP_MANIFEST_DIR}") {
