@@ -131,7 +131,7 @@ pipeline {
             }
       }
     
-      stage('Deployment of EKS cluster: Terraform'){
+      stage('Deployment on EKS cluster - pods'){
          when{expression{params.action == "deploy-k8s"}}       
          steps{
                script{
