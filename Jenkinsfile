@@ -157,7 +157,7 @@ pipeline {
                }   
             }
        }
-      stage('Deployment of EKS cluster: Terraform'){
+      stage('Deployment of On prem infra'){
          when{expression{params.action == "deploy-k8s" && params.environment == "OnPrem"}}       
          steps{
                script{
