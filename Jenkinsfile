@@ -28,7 +28,8 @@ pipeline {
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
        tools {
-        jdk 'java_17'
+        jdk 'java_17' 
+         maven 'Maven3.9.6'
        //   nodejs 'NodeJS_23'
     }
 
@@ -42,7 +43,7 @@ pipeline {
                 //gitCheckout(PROJECT)
                 dir('java-app-be-01') {
                     withSonarQubeEnv(installationName: 'SonarQube1') {
-                        sh 'sudo /usr/lib/jvm/jre-17-openjdk-17.0.13.0.11-3.el8.x86_64/bin/java && mvn sonar:sonar'
+                        sh 'sudo mvn sonar:sonar'
                     }
                 }
                 }
