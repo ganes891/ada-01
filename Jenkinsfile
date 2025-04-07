@@ -36,7 +36,13 @@ pipeline {
               script{
                // git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: "${GIT_URL}"
                 //gitCheckout(PROJECT)
-                sh "pwd"
+                
+                    withSonarQubeEnv(installationName: 'SonarQube1') {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
             
               }
             }
