@@ -61,7 +61,7 @@ pipeline {
                             staticCodeAnalysis(imageName)
                             mvnBuild()
                             dockerBuild(imageName, dockerfileDir)
-                            dockerImagePushEcr(imageName)
+                            //dockerImagePushEcr(imageName)
                             //dockerImagePush(imageName)
                             dockerImageClean(imageName)
 
