@@ -58,7 +58,9 @@ pipeline {
                    staticCodeAnalysis(SonarQubecredentialsId)
                }
             }
-            
+          }
+        }
+       }
       stage('Java - Build and Push Microservices') {
          when{expression{params.action == "create"}} 
             steps {
