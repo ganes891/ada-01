@@ -59,7 +59,7 @@ pipeline {
                             // Call the dockerBuild function
                             def dockerfileDir = "."
                             mvnBuild()
-                            staticCodeAnalysis(imageName)
+                            //staticCodeAnalysis(imageName)
                             dockerBuild(imageName, dockerfileDir)
                             dockerImagePushEcr(imageName)
                             //dockerImagePush(imageName)
@@ -96,6 +96,7 @@ pipeline {
                             dockerImagePushEcr(imageName)
                             //dockerImagePush(imageName)
                             dockerImageClean(imageName)
+                            sh "sudo podman run --rm  -v "$(pwd)/target:/usr/src" --network="host" -e SONAR_HOST_URL="http://10.12.201.178:9000" -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=ada02" -e SONAR_TOKEN="sqp_9a15f2e4ff6323782427ebe44616e645dcdc9b3c" docker.io/sonarsource/sonar-scanner-cli"
                         }
                     }
                 }
