@@ -43,10 +43,7 @@ pipeline {
                 }
             }
         }
-            
-              }
-            }
-       } 
+           
 
        stage('Quality Gate Sonarqube'){
                when{expression{params.action == "create"}}      
