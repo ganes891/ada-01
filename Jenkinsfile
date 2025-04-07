@@ -59,6 +59,7 @@ pipeline {
                             // Call the dockerBuild function
                             def dockerfileDir = "."
                             mvnBuild()
+                            staticCodeAnalysis(imageName)
                             dockerBuild(imageName, dockerfileDir)
                             dockerImagePushEcr(imageName)
                             //dockerImagePush(imageName)
