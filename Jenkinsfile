@@ -40,7 +40,25 @@ pipeline {
             
               }
             }
-       }      
+       } 
+
+       stage('Quality Gate status check: Sonarqube'){
+               when{expression{params.action == "create"}}      
+            steps{
+               script {
+                    def microservices = [
+                        'service-c': './java-app-be-01', 
+                    ]
+                        microservices.each { serviceName, serviceDir ->
+                        def imageName = "${serviceName}"
+                        // Switch to the directory of each microservice and build the Docker image
+                        echo "🚀 Building and pushing image for ${serviceName} from directory ${serviceDir}"
+                        dir(serviceDir) {
+                   def SonarQubecredentialsId = 'SonarQubeapi'
+                   staticCodeAnalysis(SonarQubecredentialsId)
+               }
+            }
+            
       stage('Java - Build and Push Microservices') {
          when{expression{params.action == "create"}} 
             steps {
@@ -58,7 +76,7 @@ pipeline {
                         dir(serviceDir) {
                             // Call the dockerBuild function
                             def dockerfileDir = "."
-                            staticCodeAnalysis(imageName)
+                            //staticCodeAnalysis(imageName)
                             mvnBuild()
                             dockerBuild(imageName, dockerfileDir)
                             //dockerImagePushEcr(imageName)
