@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ada02-deployment
+  name: service-b-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ada02
+      app: service-b
   template:
     metadata:
       labels:
-        app: ada02
+        app: service-b
     spec:
       containers:
       - name: ada-b

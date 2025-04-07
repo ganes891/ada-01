@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-c-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-c
+  template:
+    metadata:
+      labels:
+        app: service-c
+    spec:
+      containers:
+      - name: service-c
+        image: 599646583608.dkr.ecr.ap-southeast-1.amazonaws.com/ada01/service-c:v2.3
+        ports:
+        - containerPort: 8080

@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ada02-service
+  name: service-b-service
 spec:
   selector:
-    app: ada02
+    app: service-b
   ports:
   - name: http
     port: 80
