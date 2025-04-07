@@ -42,7 +42,7 @@ pipeline {
                 //gitCheckout(PROJECT)
                 dir('java-app-be-01') {
                     withSonarQubeEnv(installationName: 'SonarQube1') {
-                        sh 'sudo mvn sonar:sonar'
+                        sh 'sudo /opt/maven/bin/mvn sonar:sonar'
                     }
                 }
                 }
