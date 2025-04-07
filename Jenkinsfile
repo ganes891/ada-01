@@ -27,7 +27,12 @@ pipeline {
         GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
-   
+       tools {
+        jdk 'java_8'
+        maven 'Maven3.9.6'
+        nodejs 'NodeJS_23'
+    }
+    
     stages{
 
       stage('Git Checkout'){
@@ -38,7 +43,7 @@ pipeline {
                 //gitCheckout(PROJECT)
                 
                     withSonarQubeEnv(installationName: 'SonarQube1') {
-                        sh 'mvn sonar:sonar'
+                        sh 'sudo mvn sonar:sonar'
                     }
                 }
             }
