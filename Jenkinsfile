@@ -32,7 +32,7 @@ pipeline {
         maven 'Maven3.9.6'
         nodejs 'NodeJS_23'
     }
-    
+
     stages{
 
       stage('Git Checkout'){
@@ -41,10 +41,11 @@ pipeline {
               script{
                // git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: "${GIT_URL}"
                 //gitCheckout(PROJECT)
-                
+                dir (java-app-be-01) {
                     withSonarQubeEnv(installationName: 'SonarQube1') {
                         sh 'sudo mvn sonar:sonar'
                     }
+                }
                 }
             }
         }
