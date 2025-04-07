@@ -28,7 +28,7 @@ pipeline {
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
        tools {
-        jdk 'java_8'
+        jdk 'java_17'
         maven 'Maven3.9.6'
         nodejs 'NodeJS_23'
     }
