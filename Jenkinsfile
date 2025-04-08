@@ -42,8 +42,8 @@ pipeline {
                // git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: "${GIT_URL}"
                 //gitCheckout(PROJECT)
                 dir('java-app-be-01') {
-                    withSonarQubeEnv(installationName: 'SonarQube1') {
-                        sh 'echo $'
+                    //withSonarQubeEnv(installationName: 'SonarQube1') {
+                        sh 'echo ""'
                        // sh 'sudo mvn sonar:sonar'
                     }
                 }
