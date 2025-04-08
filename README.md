@@ -158,3 +158,20 @@ https://chatgpt.com/c/7c8ee984-cc03-4de1-9fa3-33c193572d2c
                }
             }
         }*/
+
+EFK setup:
+
+[root@ip-172-31-45-120 loki]# git remote -v
+origin  https://ganes891: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@github.com/ganes891/efk-setup.git (fetch)
+origin  https://ganes891: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@github.com/ganes891/efk-setup.git (push)
+[root@ip-172-31-45-120 loki]#
+[root@ip-172-31-45-120 loki]# ll
+total 16
+-rw-r--r--. 1 root root  535 Feb  5  2024 README.MD
+-rw-r--r--. 1 root root 1127 Feb  4  2024 docker-compose.yml
+-rw-r--r--. 1 root root  156 Feb  4  2024 grafana-datasources.yml
+drwxr-xr-x. 3 root root   80 Feb  5  2024 prom-tail
+-rw-r--r--. 1 root root  841 Feb  4  2024 promtail.yml
+[root@ip-172-31-45-120 loki]#
+[root@ip-172-31-45-120 loki]#
+
