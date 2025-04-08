@@ -53,7 +53,7 @@ pipeline {
            
 
        stage('Quality Gate Sonarqube'){
-               when{expression{params.action == "create"}}      
+               when{expression{params.action == "delete"}}      
             steps{
                script {
                     def microservices = [
