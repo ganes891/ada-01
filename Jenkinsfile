@@ -27,11 +27,11 @@ pipeline {
         GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
-       tools {
-        jdk 'java_17' 
-         maven 'Maven3.9.6'
+       //tools {
+        //jdk 'java_17' 
+      //   maven 'Maven3.9.6'
        //   nodejs 'NodeJS_23'
-    }
+    //}
 
     stages{
 
@@ -91,7 +91,7 @@ pipeline {
                             //staticCodeAnalysis(imageName)
                             mvnBuild()
                             dockerBuild(imageName, dockerfileDir)
-                            //dockerImagePushEcr(imageName)
+                            dockerImagePushEcr(imageName)
                             //dockerImagePush(imageName)
                             dockerImageClean(imageName)
 
