@@ -45,7 +45,7 @@ pipeline {
                     //withSonarQubeEnv(installationName: 'SonarQube1') {
                         sh 'echo ""'
                        // sh 'sudo mvn sonar:sonar'
-                    }
+                    
                 }
                 }
             }
