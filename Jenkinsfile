@@ -47,7 +47,7 @@ pipeline {
           }
         }
        }
-      stage('Java - Build and Push Microservices') {
+      stage('Java-Build and Push Microservices') {
          when{expression{params.action == "create"}} 
             steps {
                 script {
@@ -76,7 +76,7 @@ pipeline {
             }
       }
 
-      stage('Python - Build and Push Microservices') {
+      stage('Python-Build Push Microservices') {
          when{expression{params.action == "create"}} 
             steps {
                 script {
@@ -107,7 +107,7 @@ pipeline {
                 }
             }
       }
-      stage('Create EKS cluster using IAAC: Terraform'){
+      stage('IAC create aws-k8s Terraform'){
          when{expression{params.action == "iaccreate"}}       
             steps{
                script{
@@ -119,7 +119,7 @@ pipeline {
         }
       }
 
-      stage('Connect to EKS cluster: Terraform'){
+      stage('Connect EKS cluster:Terraform'){
          when{expression{params.action == "iaccreate"}}       
             steps{
                script{  
@@ -129,7 +129,7 @@ pipeline {
             }
       }
     
-      stage('Deployment on EKS cluster - pods'){
+      stage('Deploy AWS K8s'){
          when{expression{params.action == "deploy-k8s" && params.environment == "AWS"}}       
          steps{
                script{
