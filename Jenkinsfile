@@ -159,23 +159,8 @@ pipeline {
          steps{
                script{
                 dir("${EKS_APP_MANIFEST_DIR}") {
-                    
-                  def apply = false
+                  deployInK8S1(PROJECT) 
 
-                  try{
-                    input message: 'please confirm to deploy on eks', ok: 'Ready to apply the config ?'
-                    apply = true
-                  }catch(err){
-                    apply= false
-                    currentBuild.result  = 'UNSTABLE'
-                  }
-                  if(apply){
-
-                    sh """
-                      aws eks update-kubeconfig --region ${AWS_DEFAULT_REGION} --name ${EKS_CLUSTER_NAME}
-                      kubectl apply -f .
-                    """
-                  }
                 }
                }   
             }
