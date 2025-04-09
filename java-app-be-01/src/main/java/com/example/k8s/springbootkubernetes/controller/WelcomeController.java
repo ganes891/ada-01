@@ -8,7 +8,7 @@ public class WelcomeController {
 	
 	@RequestMapping("/greeting")
 	public String greeting() {
-		return "V1 ----->Welcome to CTC test microservice page ";
+		return "V1 ----->Welcome to CTC test JAVA based microservice";
 	}
 
 }
