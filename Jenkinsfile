@@ -13,55 +13,31 @@ pipeline {
     }
  
     environment{
-        PROJECT = 'test'
+        JOB_NAME = 'dev-proj1'
         IMAGE_TAG = 'v2.3'
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
         IMAGE_NAMESPACE='ada01'
         EKS_CLUSTER_NAME = 'SAP-dev-eksdemo'
-        PYTHON_BE_01 = 'python-app-be-01'
-        JAVA_BE_01 = 'java-app-be-01'
+        PYTHON_BE_01 = 'service-a'
+        JAVA_BE_01 = 'service-c'
         EKS_TF_DIR = 'infra/eks-admin-tf/01-ekscluster-terraform-manifests'
         EKS_APP_MANIFEST_DIR = 'application/manifests'
         GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
-       //tools {
-        //jdk 'java_17' 
-      //   maven 'Maven3.9.6'
-       //   nodejs 'NodeJS_23'
-    //}
 
     stages{
-
-      stage('Git Checkout'){
-         when{expression{params.action == "create"}}    
-            steps{
-              script{
-               // git branch: "${BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", url: "${GIT_URL}"
-                //gitCheckout(PROJECT)
-                dir('java-app-be-01') {
-                    //withSonarQubeEnv(installationName: 'SonarQube1') {
-                        sh 'echo ""'
-                       // sh 'sudo mvn sonar:sonar'
-                    
-                }
-                }
-            }
-        }
-           
-
        stage('Quality Gate Sonarqube'){
-               when{expression{params.action == "delete"}}      
+               when{expression{params.action == "create"}}      
             steps{
                script {
                     def microservices = [
-                        'service-c': './java-app-be-01', 
+                        'service-c': './service-c', 
                     ]
                         microservices.each { serviceName, serviceDir ->
                         def imageName = "${serviceName}"
-                        // Switch to the directory of each microservice and build the Docker image
                         echo "🚀 Building and pushing image for ${serviceName} from directory ${serviceDir}"
                         dir(serviceDir) {
                    def SonarQubecredentialsId = 'SonarQubeapi'
@@ -77,16 +53,15 @@ pipeline {
                 script {
                     // List of microservices with their corresponding directories
                     def microservices = [
-                        'service-c': './java-app-be-01',  // Key: image name, Value: directory path
-                        //'service-b': './python-app-be-02'   // Example microservices
+                        'service-c': './service-c', 
+                        //'service-b': './service-b'   
                     ]
                         microservices.each { serviceName, serviceDir ->
                         def imageName = "${serviceName}"
-                        // Switch to the directory of each microservice and build the Docker image
+                        
                         echo "🚀 Building and pushing image for ${serviceName} from directory ${serviceDir}"
-                        // Using `dir()` to switch to the respective directory
+                        
                         dir(serviceDir) {
-                            // Call the dockerBuild function
                             def dockerfileDir = "."
                             //staticCodeAnalysis(imageName)
                             mvnBuild()
@@ -107,8 +82,8 @@ pipeline {
                 script {
                     // List of microservices with their corresponding directories
                     def microservices = [
-                        'service-a': './python-app-be-01',  // Key: image name, Value: directory path
-                        'service-b': './python-app-be-02'   // Example microservices
+                        'service-a': './service-a', 
+                        'service-b': './service-b'   
                     ]
                     // Loop through each microservice
                     microservices.each { serviceName, serviceDir ->
@@ -138,7 +113,7 @@ pipeline {
                script{
                    dir("${EKS_TF_DIR}")
                    { 
-                    createInfraAws(PROJECT)
+                    createInfraAws(IMAGE_TAG)
                }   
             }
         }
@@ -149,7 +124,7 @@ pipeline {
             steps{
                script{  
                     //dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
-                    connectAws(PROJECT)
+                    connectAws(IMAGE_TAG)
                }
             }
       }
@@ -159,7 +134,7 @@ pipeline {
          steps{
                script{
                 dir("${EKS_APP_MANIFEST_DIR}") {
-                  deployInK8S1(PROJECT) 
+                  deployInK8S1(IMAGE_TAG) 
 
                 }
                }   
@@ -182,7 +157,6 @@ pipeline {
          }
       }
         
-
 
     stage('cleanup workspace'){
        steps{
