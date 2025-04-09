@@ -190,6 +190,8 @@ pipeline {
                sh "sleep 1"
                sh "sudo podman run -dit -p 5001:5000 --name  service-a quay.io/ganesan_kandasamy/ada01/service-a:${IMAGE_TAG}"
                sh "sudo podman run -dit -p 5002:5000 --name  service-b quay.io/ganesan_kandasamy/ada01/service-b:${IMAGE_TAG}"
+               sh "sudo podman rm -f service-c"
+               sh "sudo podman run -dit -p 5003:8080 --name  service-c quay.io/ganesan_kandasamy/ada01/service-c:${IMAGE_TAG}"
 
                }
          }
