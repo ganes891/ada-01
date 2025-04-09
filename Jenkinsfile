@@ -13,7 +13,7 @@ pipeline {
     }
  
     environment{
-       //PROJECT = '${ImageName}'
+        PROJECT = ''
         IMAGE_TAG = 'v2.3'
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
