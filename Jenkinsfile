@@ -14,7 +14,7 @@ pipeline {
  
     environment{
         JOB_NAME = 'dev-proj1'
-        IMAGE_TAG = 'v2.3'
+        IMAGE_TAG = 'v2.4'
         BRANCH = 'main'
         AWS_ACCOUNT_ID= '599646583608'
         AWS_DEFAULT_REGION= 'ap-southeast-1'
