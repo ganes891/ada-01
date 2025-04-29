@@ -24,7 +24,7 @@ pipeline {
         JAVA_BE_01 = 'service-c'
         EKS_TF_DIR = 'infra/eks-admin-tf/01-ekscluster-terraform-manifests'
         EKS_APP_MANIFEST_DIR = 'application/manifests'
-        GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'
+        GITHUB_CREDENTIAL = 'github-ID' //'9db7a662-10fb-49ba-8b48-b9adcd66236d'''''
         GIT_URL = 'https://github.com/ganes891/ada-01.git'
     }
 
